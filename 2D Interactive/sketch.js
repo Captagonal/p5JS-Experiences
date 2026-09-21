@@ -273,7 +273,7 @@ let paddleSpeed = .8;
 let g = 0.55;
 
 let score = 0;
-let balls = 0;
+let balls = 3;
 
 let solid = {
     r: 255,
@@ -312,6 +312,7 @@ let launching = true;
 let launchingTimout = 2;
 let haveLost = false;
 let nameInput;
+let submitButton;
 function lost() {
     background(20);
     fill(250);
@@ -322,9 +323,9 @@ function lost() {
     nameInput = createInput('')
     nameInput.position(windowWidth / 2 - width / 2, 80)
 
-    button = createButton(`Submit`)
-    button.position(windowWidth / 2 - width / 2, 120)
-    button.mousePressed(submit)
+    submitButton = createButton(`Submit`)
+    submitButton.position(windowWidth / 2 - width / 2, 120)
+    submitButton.mousePressed(submit)
 
     textSize(32);
     textAlign(RIGHT, TOP)
@@ -364,6 +365,12 @@ function submit() {
         .catch((error) => {
             console.error("Error saving score: ", error);
         });
+
+    score = 0;
+    haveLost = false;
+    balls = 3;
+    nameInput.remove();
+    submitButton.remove();
 }
 function draw() {
     if (haveLost) {
