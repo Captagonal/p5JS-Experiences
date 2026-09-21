@@ -1,0 +1,33 @@
+I used the P5.js reference
+
+AI Used: Gemini
+
+Prompts:
+
+Q: Why are my paddles at diffrent heights?
+
+A: (Needed to add "rectMode(CENTER);") or make one of my paddles have negative width
+
+Q: Can you explain how to bounce a ball off the padles correctly using the normals
+
+A: The Math Needed
+
+Q: How can I improve the collision code 
+
+A: switch from color dectection to pure math
+
+Q: Why does it slide down the paddle so slow
+
+A: Reseting vel everytime it hits
+
+Q: Why is it crashing?
+
+A: I had a typo where my class for my paddles was lowercase but I declared them as uppercase
+
+Q: Why isn't my Firestore integration working?
+
+A: My Rules were wrong denying access
+
+Q: Why am I getting this error  Uncaught FirebaseError: Function addDoc() called with invalid data. Unsupported field value: undefined (found in field Name in document Scores/6WM1eiKbCYV8yzqpuEM3) 
+
+A: nameInput.text is undefinded should be using nameInput.value()
