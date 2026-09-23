@@ -273,7 +273,7 @@ let paddleSpeed = .8;
 let g = 0.55;
 
 let score = 0;
-let balls = 3;
+let balls = 0;
 
 let solid = {
     r: 255,
@@ -318,13 +318,14 @@ function lost() {
     fill(250);
     textSize(32);
     textAlign(LEFT, TOP);
-    text("Name:", 0, 20)
+    text("Score:"+score,0,20)
+    text("Name:", 0, 52)
 
     nameInput = createInput('')
-    nameInput.position(windowWidth / 2 - width / 2, 80)
+    nameInput.position(windowWidth / 2 - width / 2, 110)
 
     submitButton = createButton(`Submit`)
-    submitButton.position(windowWidth / 2 - width / 2, 120)
+    submitButton.position(windowWidth / 2 - width / 2, 150)
     submitButton.mousePressed(submit)
 
     textSize(32);
@@ -359,7 +360,7 @@ function submit() {
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
         .then((docRef) => {
-            console.log("Score saved with ID: ", docRef.id);
+                console.log("Score saved with ID: ", docRef.id);
             button.attribute('disabled', 'true'); // Disable button after submission
         })
         .catch((error) => {
@@ -532,12 +533,6 @@ function draw() {
     rectAt(paddleRight.x, paddleRight.y, paddleRight.theta, paddleRight.w, paddleRight.h, 7);
 
     //Shooter
-    if (launcher) {
-        fill(80);
-        rectAt(400, 0, 0, 100, 650);
-        fill(80, 20, 20);
-        rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
-    }
     //Score
     fill(250);
     textSize(32);
@@ -549,6 +544,17 @@ function draw() {
     }
     text(ballDisplay, 0, 50)
 
+    if (launcher) {
+        fill(80);
+        rectAt(400, 0, 0, 100, 650);
+        fill(80, 20, 20);
+        rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
+    } else if (launching){
+        fill(80);
+        rectAt(400, 0, 0, 100, 650);
+        fill(80, 20, 20);
+        rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
+    }
     //ball
     noStroke();
     fill(255);
