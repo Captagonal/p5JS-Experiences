@@ -273,7 +273,7 @@ let paddleSpeed = .8;
 let g = 0.55;
 
 let score = 0;
-let balls = 0;
+let balls = 3;
 
 let solid = {
     r: 255,
