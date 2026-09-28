@@ -406,7 +406,7 @@ function draw() {
         paddleRight.targetTheta = -paddleDefault;
     }
 
-    if (mouseIsPressed && mouseX > 400 && mouseX < 500 && mouseY > 650 - shooter.relaxedHeight) {
+    if (mouseIsPressed && mouseX > (launcher ? 400 : 350) && mouseX < 500 && mouseY > 650 - shooter.relaxedHeight) {
         shooter.h = mouseY < 650 ? 650 - mouseY : 0;
         launchingTimout = 2;
     } else {
@@ -417,7 +417,7 @@ function draw() {
         shooter.h = lerp(shooter.h, shooter.relaxedHeight, .35);
     }
     if (launching) {
-        ball.x = 425;
+        ball.x = launcher ? 425 : 375;
         ball.vx = 0
         if (ball.y < 40) {
             ball.vy = -7;
@@ -537,12 +537,12 @@ function draw() {
     fill(250);
     textSize(32);
     textAlign(LEFT, TOP);
-    text(score, 0, 10);
+    text(score, 10, 10);
     let ballDisplay = "";
     for (let j = 0; j < balls; j++) {
         ballDisplay = ballDisplay.concat("O");
     }
-    text(ballDisplay, 0, 50)
+    text(ballDisplay, 10, 50)
 
     if (launcher) {
         fill(80);
@@ -551,9 +551,9 @@ function draw() {
         rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
     } else if (launching){
         fill(80);
-        rectAt(400, 0, 0, 100, 650);
+        rectAt(350, 0, 0, width-350, 650);
         fill(80, 20, 20);
-        rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
+        rectAt(350, 650 - shooter.h, 0, width-350, shooter.h);
     }
     //ball
     noStroke();
