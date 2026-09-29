@@ -291,10 +291,24 @@ let shooter = {
 };
 
 let launcher = true;
-
+let scaleFactor = 1;
 function setup() {
     if (windowWidth > 450) {
-        createCanvas(450, 650);
+        if (windowHeight > 650) {
+            console.log("Resizing canvas to fit window while maintaining aspect ratio.");
+            console.log(`Window dimensions: ${windowWidth}x${windowHeight}`);
+            console.log(`Aspect ratios - Window: ${windowWidth / windowHeight}, Canvas: ${450 / 650}`);
+            console.log(`Scaling factors - Width: ${windowWidth / 450}, Height: ${windowHeight / 650}`);
+            if (windowHeight / 650 > windowWidth / 450) {
+                createCanvas(450 * (windowWidth / 450), 650 * (windowWidth / 450));
+                scaleFactor = windowWidth / 450;
+            } else {
+                createCanvas(450 * (windowHeight / 650), 650 * (windowHeight / 650));
+                scaleFactor = windowHeight / 650;
+            }
+        } else {
+            createCanvas(450, 650);
+        }
     } else if (windowWidth > 420) {
         createCanvas(windowWidth, 650)
     } else if (windowWidth > 400) {
@@ -318,7 +332,7 @@ function lost() {
     fill(250);
     textSize(32);
     textAlign(LEFT, TOP);
-    text("Score:"+score,0,20)
+    text("Score:" + score, 0, 20)
     text("Name:", 0, 52)
 
     nameInput = createInput('')
@@ -330,7 +344,7 @@ function lost() {
 
     textSize(32);
     textAlign(RIGHT, TOP)
-    text("High Scores:", width, 20)
+    text("High Scores:", width/scaleFactor, 20)
     db.collection("Scores").orderBy("Score", "desc").limit(10).get()
         .then((snapshot) => {
             let yOffset = 62;
@@ -360,7 +374,7 @@ function submit() {
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     })
         .then((docRef) => {
-                console.log("Score saved with ID: ", docRef.id);
+            console.log("Score saved with ID: ", docRef.id);
             button.attribute('disabled', 'true'); // Disable button after submission
         })
         .catch((error) => {
@@ -379,7 +393,7 @@ function draw() {
         return;
     }
     background(20);
-
+    scale(scaleFactor);
     let prevLeftTheta = paddleLeft.theta;
     let prevRightTheta = paddleRight.theta;
     let touching = false;
@@ -387,32 +401,32 @@ function draw() {
     let touchingR = false;
     for (var i = 0; i < touches.length; i++) {
         touching = true
-        if (touches[i].x > 200 && touches[i].x < 400) {
+        if (touches[i].x > 200 * scaleFactor && touches[i].x < 400 * scaleFactor) {
             touchingR = true;
         }
-        if (touches[i].x < 200 && touches[i].x > 0) {
+        if (touches[i].x < 200 * scaleFactor && touches[i].x > 0) {
             touchingL = true;
         }
     }
-    if (keyIsDown(LEFT_ARROW) || (mouseIsPressed && mouseX < 200 && mouseX > 0 && !touching) || (touching && touchingL)) {
+    if (keyIsDown(LEFT_ARROW) || (mouseIsPressed && mouseX < 200 * scaleFactor && mouseX > 0 && !touching) || (touching && touchingL)) {
         paddleLeft.targetTheta = paddleup;
     } else {
         paddleLeft.targetTheta = paddleDefault;
     }
 
-    if (keyIsDown(RIGHT_ARROW) || (mouseIsPressed && mouseX > 200 && mouseX < 400 && !touching) || (touching && touchingR)) {
+    if (keyIsDown(RIGHT_ARROW) || (mouseIsPressed && mouseX > 200 * scaleFactor && mouseX < 400 * scaleFactor && !touching) || (touching && touchingR)) {
         paddleRight.targetTheta = -paddleup;
     } else {
         paddleRight.targetTheta = -paddleDefault;
     }
 
-    if (mouseIsPressed && mouseX > (launcher ? 400 : 350) && mouseX < 500 && mouseY > 650 - shooter.relaxedHeight) {
-        shooter.h = mouseY < 650 ? 650 - mouseY : 0;
+    if (mouseIsPressed && mouseX > (launcher ? 400 : 350) * scaleFactor && mouseX < 500 * scaleFactor && mouseY > 650 * scaleFactor - shooter.relaxedHeight * scaleFactor) {
+        shooter.h = mouseY < 650 * scaleFactor ? 650 - mouseY / scaleFactor : 0;
         launchingTimout = 2;
     } else {
         launchingTimout--;
         if (shooter.h < shooter.relaxedHeight && launching && launchingTimout > 0) {
-            ball.vy = -(shooter.relaxedHeight - shooter.h) / 9
+            ball.vy = -(shooter.relaxedHeight - shooter.h) / 9 * scaleFactor;
         }
         shooter.h = lerp(shooter.h, shooter.relaxedHeight, .35);
     }
@@ -549,11 +563,11 @@ function draw() {
         rectAt(400, 0, 0, 100, 650);
         fill(80, 20, 20);
         rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
-    } else if (launching){
+    } else if (launching) {
         fill(80);
-        rectAt(350, 0, 0, width-350, 650);
+        rectAt(350, 0, 0, width - 350, 650);
         fill(80, 20, 20);
-        rectAt(350, 650 - shooter.h, 0, width-350, shooter.h);
+        rectAt(350, 650 - shooter.h, 0, width - 350, shooter.h);
     }
     //ball
     noStroke();
