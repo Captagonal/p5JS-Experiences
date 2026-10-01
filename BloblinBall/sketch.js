@@ -311,7 +311,7 @@ let launcher = true;
 let scaleFactor = 1;
 
 async function setup() {
-    BloblinBall = await loadImage('/BloblinBall/assets/BloblinBall.png');
+    BloblinBall = await loadImage('assets/BloblinBall.png');
     if (windowWidth > 450) {
         if (windowHeight > 650) {
             console.log("Resizing canvas to fit window while maintaining aspect ratio.");
