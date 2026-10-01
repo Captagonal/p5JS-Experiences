@@ -365,10 +365,10 @@ function lost() {
     text("Name:", 0, 52)
 
     nameInput = createInput('')
-    nameInput.position(windowWidth / 2 - width / 2, 110)
+    nameInput.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2 + 110)
 
     submitButton = createButton(`Submit`)
-    submitButton.position(windowWidth / 2 - width / 2, 150)
+    submitButton.position(windowWidth / 2 - width / 2, windowHeight / 2 - height / 2 + 150)
     submitButton.mousePressed(submit)
 
     textSize(32);
@@ -484,7 +484,7 @@ function draw() {
 
     // High sub-stepping loop (16 steps) for fast tip speeds
     let substeps = 16;
-    g = .03 * (deltaTime)
+    g = .5/16.66 * (deltaTime)
 
     for (let i = 0; i < substeps; i++) {
 
@@ -593,7 +593,7 @@ function draw() {
     if (launcher) {
         fill(80);
         rectAt(400, 0, 0, 100, 650);
-        fill(80, 20, 20);
+        fill(20, 20, 20);
         rectAt(400, 650 - shooter.h, 0, 100, shooter.h);
     } else if (launching) {
         fill(80);
@@ -619,7 +619,7 @@ function checkPaddleCollision(p, isLeft) {
     let tipX = p.x + cos(p.theta) * p.w;
     let tipY = p.y + sin(p.theta) * p.w;
 
-    let lineDistSq = distSq(p.x, p.y, tipX, tipY);
+    let lineDistSq =     Math.pow(dist(p.x, p.y, tipX, tipY), 2 );
     if (lineDistSq === 0) return;
 
     let u = ((ball.x - p.x) * (tipX - p.x) + (ball.y - p.y) * (tipY - p.y)) / lineDistSq;
@@ -663,8 +663,4 @@ function checkPaddleCollision(p, isLeft) {
             }
         }
     }
-}
-
-function distSq(x1, y1, x2, y2) {
-    return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
 }
