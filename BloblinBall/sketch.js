@@ -27,7 +27,7 @@ class Bouncer {
             stroke(20, 20, 100);
         } else {
             fill(solid.r, solid.g, solid.b);
-            stroke(100, 20, 20);
+            stroke(20, 20, 100);
         }
         strokeWeight(this.bouncing ? 4 : 5);
         ellipse(this.x, this.y, this.bouncing ? this.r * 2 - 10 : this.r * 2 - 5);
@@ -90,7 +90,7 @@ class RollOver {
             stroke(20)
         }
         rectMode(CENTER)
-        star(this.point.x, this.point.y, 5, 10, 4)
+        star(this.point.x, this.point.y, 7, 13, 4)
         // rectAt(this.point.x, this.point.y, Math.PI/4, 20, 20, 2)
         rectMode(CORNER)
     }
@@ -293,9 +293,9 @@ let score = 0;
 let balls = 3;
 
 let solid = {
-    r: 255,
+    r: 80,
     g: 80,
-    b: 80
+    b: 255
 }
 
 let paddleLeft = new Paddle(0, 550, 170, 20, paddleDefault);
@@ -480,6 +480,8 @@ function draw() {
 
     // High sub-stepping loop (16 steps) for fast tip speeds
     let substeps = 16;
+            g = .03 * (deltaTime)
+
     for (let i = 0; i < substeps; i++) {
 
         RollOvers.checkIfAnyActive();
@@ -507,7 +509,6 @@ function draw() {
         // Sub-step flipper rotation so collision line updates continuously
         paddleLeft.theta = lerp(prevLeftTheta, lerp(prevLeftTheta, paddleLeft.targetTheta, paddleSpeed), t);
         paddleRight.theta = lerp(prevRightTheta, lerp(prevRightTheta, paddleRight.targetTheta, paddleSpeed), t);
-
         ball.vy += g / substeps;
         const MaxSpeed = 25
         const currentSpeed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
@@ -593,7 +594,7 @@ function draw() {
     } else if (launching) {
         fill(80);
         rectAt(350, 0, 0, width - 350, 650);
-        fill(80, 20, 20);
+        fill(20, 20, 20);
         rectAt(350, 650 - shooter.h, 0, width - 350, shooter.h);
     }
     //ball
