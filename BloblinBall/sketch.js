@@ -311,7 +311,11 @@ let launcher = true;
 let scaleFactor = 1;
 
 async function setup() {
-    BloblinBall = await loadImage('assets/BloblinBall.png');
+    try {
+        BloblinBall = await loadImage('assets/BloblinBall.png');
+    } catch (error) {
+        BloblinBall = await loadImage('https://github.com/Captagonal/p5JS-Experiences/blob/main/BloblinBall/assets/BloblinBall.png');
+    }
     if (windowWidth > 450) {
         if (windowHeight > 650) {
             console.log("Resizing canvas to fit window while maintaining aspect ratio.");
