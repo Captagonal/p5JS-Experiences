@@ -483,7 +483,7 @@ function draw() {
     }
 
     // High sub-stepping loop (16 steps) for fast tip speeds
-    let substeps = 8;
+    let substeps = 16;
     g = .03 * (deltaTime)
 
     for (let i = 0; i < substeps; i++) {
@@ -522,8 +522,8 @@ function draw() {
             ball.vx *= scaleFactor;
             ball.vy *= scaleFactor;
         }
-        ball.x += ball.vx / substeps;
-        ball.y += ball.vy / substeps;
+        ball.x += ball.vx * deltaTime/16.66 / substeps;
+        ball.y += ball.vy * deltaTime/16.66 / substeps;
 
         if (ball.y - ball.radius > height) {
             balls -= 1;
