@@ -108,7 +108,7 @@ function star(x, y, radius1, radius2, npoints) {
         vertex(x1, y1);
     }
     endShape(CLOSE);
-}   
+}
 
 class RollOverGroup {
     constructor(rollOvers) {
@@ -373,7 +373,7 @@ function lost() {
 
     textSize(32);
     textAlign(RIGHT, TOP)
-    text("High Scores:", width/scaleFactor, 20)
+    text("High Scores:", width / scaleFactor, 20)
     db.collection("Scores2").orderBy("Score", "desc").limit(10).get()
         .then((snapshot) => {
             let yOffset = 62;
@@ -417,14 +417,14 @@ function submit() {
     submitButton.remove();
 }
 function draw() {
-    
+
     if (haveLost) {
-        
+
         return;
     }
-    background(15,10,20);
+    background(15, 10, 20);
     scale(scaleFactor);
-    image(BloblinBall, 0, 170 / scaleFactor, width / (1.5 * scaleFactor), width/(1.5* scaleFactor)/2 * 3 );
+    image(BloblinBall, 0, 170 / scaleFactor, width / (1.5 * scaleFactor), width / (1.5 * scaleFactor) / 2 * 3);
     let prevLeftTheta = paddleLeft.theta;
     let prevRightTheta = paddleRight.theta;
     let touching = false;
@@ -483,8 +483,8 @@ function draw() {
     }
 
     // High sub-stepping loop (16 steps) for fast tip speeds
-    let substeps = 16;
-            g = .03 * (deltaTime)
+    let substeps = 8;
+    g = .03 * (deltaTime)
 
     for (let i = 0; i < substeps; i++) {
 
