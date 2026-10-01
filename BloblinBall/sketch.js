@@ -310,6 +310,8 @@ let shooter = {
 let launcher = true;
 let scaleFactor = 1;
 
+let stars = [];
+
 async function setup() {
     try {
         BloblinBall = await loadImage('assets/BloblinBall.png');
@@ -344,7 +346,17 @@ async function setup() {
 
         createCanvas(400, 650);
     }
+
+    if (windowHeight > height){
+        offset = (windowHeight - height)/2
+        createCanvas(width, windowHeight)
+    }
+
+    for (let i = 0; i < 15; i++) {
+        stars.push(new Point(random(width), random(height)));
+    }
 }
+let offset = 0
 
 let launching = true;
 let launchingTimout = 2;
@@ -424,6 +436,14 @@ function draw() {
     }
     background(15, 10, 20);
     scale(scaleFactor);
+    
+    for (let a of stars) {
+        fill(255)
+        stroke(110)
+        strokeWeight(1)
+        star(a.x,a.y,2,4,4)
+    }
+    translate(0, offset)
     image(BloblinBall, 0, 170 / scaleFactor, width / (1.5 * scaleFactor), width / (1.5 * scaleFactor) / 2 * 3);
     let prevLeftTheta = paddleLeft.theta;
     let prevRightTheta = paddleRight.theta;
@@ -484,7 +504,7 @@ function draw() {
 
     // High sub-stepping loop (16 steps) for fast tip speeds
     let substeps = 16;
-    g = .5/16.66 * (deltaTime)
+    g = .5 / 16.66 * (deltaTime)
 
     for (let i = 0; i < substeps; i++) {
 
@@ -522,8 +542,8 @@ function draw() {
             ball.vx *= scaleFactor;
             ball.vy *= scaleFactor;
         }
-        ball.x += ball.vx * deltaTime/16.66 / substeps;
-        ball.y += ball.vy * deltaTime/16.66 / substeps;
+        ball.x += ball.vx * deltaTime / 16.66 / substeps;
+        ball.y += ball.vy * deltaTime / 16.66 / substeps;
 
         if (ball.y - ball.radius > height) {
             balls -= 1;
@@ -619,7 +639,7 @@ function checkPaddleCollision(p, isLeft) {
     let tipX = p.x + cos(p.theta) * p.w;
     let tipY = p.y + sin(p.theta) * p.w;
 
-    let lineDistSq =     Math.pow(dist(p.x, p.y, tipX, tipY), 2 );
+    let lineDistSq = Math.pow(dist(p.x, p.y, tipX, tipY), 2);
     if (lineDistSq === 0) return;
 
     let u = ((ball.x - p.x) * (tipX - p.x) + (ball.y - p.y) * (tipY - p.y)) / lineDistSq;
