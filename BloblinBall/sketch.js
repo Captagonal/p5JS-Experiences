@@ -357,7 +357,7 @@ let submitButton;
 let BloblinBall;
 
 function lost() {
-    background(20);
+    background(15, 10, 20);
     fill(250);
     textSize(32);
     textAlign(LEFT, TOP);
