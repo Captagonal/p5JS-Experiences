@@ -428,6 +428,7 @@ function submit() {
     nameInput.remove();
     submitButton.remove();
 }
+
 function draw() {
 
     if (haveLost) {
@@ -444,7 +445,11 @@ function draw() {
         star(a.x,a.y,2,4,4)
     }
     translate(0, offset)
-    image(BloblinBall, 0, 170 / scaleFactor, width / (1.5 * scaleFactor), width / (1.5 * scaleFactor) / 2 * 3);
+    translate(0,20 * sin(.01 * frameCount) ) 
+    rotate(.2 * (1 + .5 * sin(.007 * frameCount) ) )  
+    image(BloblinBall, 0, 30, width / (1.5 * scaleFactor), width / (1.5 * scaleFactor) / 2 * 3);
+    rotate(-.2 * (1 + .5 * sin(.007 * frameCount) ) )  
+    translate(0,20 * -sin(.01 *frameCount) )   
     let prevLeftTheta = paddleLeft.theta;
     let prevRightTheta = paddleRight.theta;
     let touching = false;
