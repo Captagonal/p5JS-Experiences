@@ -151,18 +151,18 @@ class RollOverGroup {
 
 let RollOvers = new RollOverGroup([
     new RollOver(280, 400),
-    new RollOver(280, 360),
+    new RollOver(300, 360),
     new RollOver(280, 320),
-    new RollOver(280, 280),
-    new RollOver(100, 400),
+    new RollOver(300, 280),
+    new RollOver(80, 400),
     new RollOver(100, 360),
     new RollOver(100, 320),
-    new RollOver(100, 280),
-    new RollOver(140, 360),
-    new RollOver(240, 360),
-    new RollOver(190, 400),
-    new RollOver(140, 440),
-    new RollOver(240, 440),
+    new RollOver(70, 290),
+    // new RollOver(140, 360),
+    new RollOver(240, 270),
+    // new RollOver(190, 400),
+    // new RollOver(140, 440),
+    new RollOver(260, 440),
 ])
 
 class Track {
@@ -266,9 +266,9 @@ class Paddle {
 }
 
 let bouncers = [
-    new Bouncer(200, 100, 20),
-    new Bouncer(130, 220, 20),
-    new Bouncer(250, 180, 20),
+    new Bouncer(180, 100, 20),
+    new Bouncer(280, 200, 20),
+    new Bouncer(240, 400, 20),
 ];
 
 class Ball {
@@ -347,8 +347,8 @@ async function setup() {
         createCanvas(400, 650);
     }
 
-    if (windowHeight > height){
-        offset = (windowHeight - height)/2
+    if (windowHeight > height) {
+        offset = (windowHeight - height) / 2
         createCanvas(width, windowHeight)
     }
 
@@ -437,19 +437,30 @@ function draw() {
     }
     background(15, 10, 20);
     scale(scaleFactor);
-    
+
     for (let a of stars) {
         fill(255)
         stroke(110)
         strokeWeight(1)
-        star(a.x,a.y,2,4,4)
+        star(a.x, a.y, 2, 4, 4)
     }
     translate(0, offset)
-    translate(0,20 * sin(.01 * frameCount) ) 
-    rotate(.2 * (1 + .5 * sin(.007 * frameCount) ) )  
+    translate(0, 20 * sin(.01 * frameCount))
+    rotate(.2 * (1 + .5 * sin(.007 * frameCount)))
     image(BloblinBall, 0, 30, width / (1.5 * scaleFactor), width / (1.5 * scaleFactor) / 2 * 3);
-    rotate(-.2 * (1 + .5 * sin(.007 * frameCount) ) )  
-    translate(0,20 * -sin(.01 *frameCount) )   
+    rotate(-.2 * (1 + .5 * sin(.007 * frameCount)))
+    translate(0, 20 * -sin(.01 * frameCount))
+    // Local variables
+    let bounceY = 20 * sin(0.01 * frameCount);
+    let angle = 0.2 * (1 + 0.5 * sin(0.007 * frameCount));
+
+    let localX = 240;
+    let localY = 360 + bounceY; // Vertical translation added before rotation
+
+    // 2D Rotation matrix transformation
+    bouncers[2].x = localX * cos(angle) - localY * sin(angle);
+    bouncers[2].y = localX * sin(angle) + localY * cos(angle);
+    bouncers[2].draw();
     let prevLeftTheta = paddleLeft.theta;
     let prevRightTheta = paddleRight.theta;
     let touching = false;
@@ -582,9 +593,7 @@ function draw() {
         checkPaddleCollision(paddleLeft, true);
         checkPaddleCollision(paddleRight, false);
 
-        for (let b of bouncers) {
-            b.bounce(ball);
-        }
+        bouncers.forEach(b => b.bounce(ball));
     }
 
     //bouncers
