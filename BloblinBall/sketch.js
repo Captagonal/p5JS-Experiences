@@ -450,16 +450,15 @@ function draw() {
     image(BloblinBall, 0, 30, width / (1.5 * scaleFactor), width / (1.5 * scaleFactor) / 2 * 3);
     rotate(-.2 * (1 + .5 * sin(.007 * frameCount)))
     translate(0, 20 * -sin(.01 * frameCount))
-    // Local variables
+    
     let bounceY = 20 * sin(0.01 * frameCount);
     let angle = 0.2 * (1 + 0.5 * sin(0.007 * frameCount));
 
     let localX = 240;
-    let localY = 360 + bounceY; // Vertical translation added before rotation
+    let localY = 360 + bounceY;
 
-    // 2D Rotation matrix transformation
-    bouncers[2].x = localX * cos(angle) - localY * sin(angle);
-    bouncers[2].y = localX * sin(angle) + localY * cos(angle);
+    bouncers[2].x = localX * cos(angle) - localY * sin(angle) - offset/40;
+    bouncers[2].y = localX * sin(angle) + localY * cos(angle) - offset/17;
     bouncers[2].draw();
     let prevLeftTheta = paddleLeft.theta;
     let prevRightTheta = paddleRight.theta;
@@ -597,9 +596,8 @@ function draw() {
     }
 
     //bouncers
-    for (let b of bouncers) {
-        b.draw();
-    }
+    bouncers[0].draw();
+    bouncers[1].draw();
 
     RollOvers.draw();
 
